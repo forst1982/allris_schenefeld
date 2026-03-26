@@ -1,0 +1,28 @@
+import requests
+from bs4 import BeautifulSoup
+
+BASE_URL = "https://www.sitzungsdienst-schenefeld.de/bi"
+
+def fetch_meetings():
+    url = f"{BASE_URL}/si010.asp"
+    res = requests.get(url)
+    soup = BeautifulSoup(res.text, "lxml")
+
+    meetings = []
+
+    table = soup.find("table")
+    if not table:
+        return []
+
+    for row in table.find_all("tr")[1:]:
+        cols = row.find_all("td")
+        if len(cols) < 3:
+            continue
+
+        meetings.append({
+            "id": cols[0].text.strip(),
+            "date": cols[1].text.strip(),
+            "name": cols[2].text.strip(),
+        })
+
+    return meetings
