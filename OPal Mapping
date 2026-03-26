@@ -1,0 +1,14 @@
+def map_meeting(raw):
+    return {
+        "id": f"https://api.schenefeld.de/meeting/{raw['id']}",
+        "type": "https://schema.oparl.org/1.0/Meeting",
+        "name": raw["name"],
+        "start": raw["date"],
+    }
+
+def map_paper(raw):
+    return {
+        "id": f"https://api.schenefeld.de/paper/{raw['id']}",
+        "type": "https://schema.oparl.org/1.0/Paper",
+        "name": raw["title"],
+    }
